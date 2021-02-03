@@ -22,9 +22,17 @@ splittedStr = addExpenses.toLowerCase().split(', ');
 console.log(splittedStr);
 
 budgetMonth = money - (+amount1 + +amount2);
-missionComplited = Math.ceil(mission / budgetMonth);
 console.log('Бюджет на месяц: ', budgetMonth);
-console.log(`Цель будет достигнкта через ${missionComplited} месяцев(-а)` );
+if(budgetMonth >0){
+  missionComplited = Math.ceil(mission / budgetMonth);
+  console.log(`Цель будет достигнута через ${missionComplited} месяцев(-а)` );
+}else{
+  console.log(`Цель небудет достигнута, у Вас нет доходов` );
+}
+
+
+
+
 
 
 budgetDay = Math.floor(budgetMonth / 30);
@@ -41,7 +49,7 @@ switch (true) {
     console.log('К сожалению у вас уровень дохода ниже среднего');
     break;
   case budgetDay < 0:
-    console.log('Что то пошло не так')
+    console.  log('Что то пошло не так')
     break;
   default:
     console.log('Я еще не видел таких денег');
