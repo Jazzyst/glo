@@ -58,7 +58,7 @@ const getTargetMonth = (mission, accumMonth) => {
     missionComplited = Math.ceil(mission / accumMonth);
     return `Цель будет достигнута через ${missionComplited} месяцев(-а)`;
   }
-  return `Цель небудет достигнута, у Вас нет доходов`;
+  return `Цель не будет достигнута, у Вас нет доходов`;
 }
 console.log(getTargetMonth(mission, accumulatedMonth))
 
