@@ -18,15 +18,35 @@ appData = {
   expenses: {},
   addExpenses: [],
   deposit: false,
+  percentDeposit: 0,
+  moneyDeposit: 0,
   mission: 100000,
   period: 12,
   budgetDay: 0,
   budgetMonth: 0,
   expensesMonth: 0,
   asking:  function(){
-    addExpenses = prompt('Перечислите возможные расходы за рассчитываемый период через запятую', 'Квартплата, проездной, кредит');
-    this.addExpenses = addExpenses.toLowerCase().split(', ');
+    do {
+      addExpenses = prompt('Перечислите возможные расходы за рассчитываемый период через запятую', 'Квартплата, проездной, кредит');
+    } while (isNumber(addExpenses))
+    this.addExpenses = addExpenses.split(', ');
+    this.addExpenses = this.addExpenses.map(item => item.toLowerCase().trim().slice(0, 1).toUpperCase() + item.slice(1));
+    console.log('Возможные расходы', this.addExpenses);
+
     this.deposit = confirm('Есть ли у вас депозит в банке?');
+    this.getInfoDeposit();
+    if(confirm('Есть ли у вас дополнительный  источник заработка?')){
+      let itemIncome, cashIncome
+      do {
+        itemIncome = prompt('какой у вас есть дополнительный заработок?','Майню биткоин');
+      } while (isNumber(itemIncome))
+
+      do {
+        cashIncome = prompt('Сколько в месяц зарабатываете на этом?',10000);
+      } while (!isNumber(cashIncome))
+
+      this.income[itemIncome] = cashIncome;
+    }
 
     for (let i = 0; i < 2; i++) {
       let keys, values
@@ -82,6 +102,20 @@ appData = {
       default:
         return 'Я еще не видел таких денег';
     }
+  },
+  getInfoDeposit: function () {
+    if(this.deposit){
+      do {
+        this.percentDeposit = prompt('Какой годовой процент', '10')
+      } while (!isNumber(this.percentDeposit))
+
+      do {
+        this.moneyDeposit = prompt('Какая сумма заложена', 10000)
+      } while (!isNumber(this.moneyDeposit))
+    }
+  },
+  calcSavedMoney: function () {
+    return this.budgetMonth * this.period;
   }
 }
 
@@ -96,3 +130,4 @@ console.log(appData.getStatusIncome());
 for(let itemData in appData){
   console.log(`Наша программа включает в себя данные: ${itemData}: ${appData[itemData]}`);
 }
+
