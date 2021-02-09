@@ -1,3 +1,4 @@
+"use strict";
 let money,  addExpenses,  missionComplited, appData;
 
 const isNumber = (n) => {
@@ -75,9 +76,9 @@ appData = {
       case this.budgetDay <= 600 && this.budgetDay >= 0:
         return 'К сожалению у вас уровень дохода ниже среднего';
         break;
-      case this.budgetDay < 0:
-        return 'Что то пошло не так';
-        break;
+      // case this.budgetDay < 0:
+      //   return 'Что то пошло не так';
+      //   break;
       default:
         return 'Я еще не видел таких денег';
     }
