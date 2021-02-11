@@ -31,7 +31,7 @@ appData = {
     } while (isNumber(addExpenses))
     this.addExpenses = addExpenses.split(', ');
     this.addExpenses = this.addExpenses.map(item => item.toLowerCase().trim().slice(0, 1).toUpperCase() + item.slice(1));
-    console.log('Возможные расходы', this.addExpenses);
+    console.log('Возможные расходы: ', this.addExpenses.join(', '));
 
     this.deposit = confirm('Есть ли у вас депозит в банке?');
     this.getInfoDeposit();
@@ -51,6 +51,10 @@ appData = {
     for (let i = 0; i < 2; i++) {
       let keys, values
       keys = prompt(`Введите обязательную статью расходов №${i + 1}?`);
+      console.log('keys',keys)
+      if(keys === null){
+        return
+      }
       do {
         values = prompt(`Во сколько это обойдется?`);
           } while (!isNumber(values))
