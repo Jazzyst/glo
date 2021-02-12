@@ -50,19 +50,16 @@ appData = {
     }
 
     for (let i = 0; i < 2; i++) {
-      let keys, values
-      while (isNumber(keys= prompt(`Введите обязательную статью расходов №${i + 1}?`)) || keys === ''){
-        keys = prompt(`Введите обязательную статью расходов №${i + 1}?`);
-      }
-      console.log('keys',keys)
-      if(keys === null){
-        return
+
+      let question = prompt(`Введите обязательную статью расходов №${i + 1}?`);
+      let cash;
+      while (isNumber(question) || question === null || !question.trim()) {
+        question = prompt(`Введите обязательную статью расходов №${i + 1}?`);
       }
       do {
-        values = prompt(`Во сколько это обойдется?`);
-          } while (!isNumber(values))
-
-      this.expenses[keys] = +values
+        cash = prompt('Во сколько это обойдется?');
+      } while (!isNumber(cash) || cash === 0);
+      this.expenses[question] = +cash;
     }
     console.log(this.expenses);
     return this.expenses;
