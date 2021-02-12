@@ -51,9 +51,9 @@ appData = {
 
     for (let i = 0; i < 2; i++) {
       let keys, values
-      do {
+      while (isNumber(keys= prompt(`Введите обязательную статью расходов №${i + 1}?`)) || keys === ''){
         keys = prompt(`Введите обязательную статью расходов №${i + 1}?`);
-      } while (isNumber(keys))
+      }
       console.log('keys',keys)
       if(keys === null){
         return
