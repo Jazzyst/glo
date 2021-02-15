@@ -105,13 +105,6 @@ appData = {
 
     })
 
-    // if (confirm('Есть ли у вас дополнительный  источник заработка?')) {
-    //   let itemIncome, cashIncome
-    //     itemIncome = prompt('какой у вас есть дополнительный заработок?', 'Майню биткоин');
-    //     cashIncome = prompt('Сколько в месяц зарабатываете на этом?', 10000);
-    //
-    // }
-
     for(let key in appData.income){
       appData.incomeMonth += +appData.income[key];
     }
