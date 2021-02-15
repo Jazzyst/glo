@@ -30,3 +30,5 @@ const li = document.createElement('li')
 li.textContent = 'Глава 8: За пределами ES6'
 book6ListItems[8].after(li)
 
+document.querySelector('.adv').remove()
+
