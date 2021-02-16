@@ -6,12 +6,13 @@ todoList = document.querySelector('.todo-list'),
 todoCompleted = document.querySelector('.todo-completed');
 
 let lsData = JSON.parse(localStorage.getItem('list'));
-let todoData = lsData;
-
+let todoData = [];
 
 const render = function () {
   todoList.textContent ='';
   todoCompleted.textContent ='';
+
+  todoData = lsData;
 
   todoData.forEach(function (item, i) {
     const li = document.createElement('li');
@@ -34,7 +35,7 @@ const render = function () {
     });
 
     const btnTodoRemove = li.querySelector('.todo-remove');
-    btnTodoRemove.addEventListener('click', function () {
+    btnTodoRemove.addEventListener('click', function (){
       delete todoData[i];
       render();
     })
