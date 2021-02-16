@@ -37,11 +37,11 @@ const render = function () {
     const btnTodoRemove = li.querySelector('.todo-remove');
     btnTodoRemove.addEventListener('click', function (){
       delete todoData[i];
+      localStorage.setItem('list', JSON.stringify(todoData));
       render();
     })
-    localStorage.setItem('list', JSON.stringify(todoData));
   });
-
+  localStorage.setItem('list', JSON.stringify(todoData));
 };
 
 todoControl.addEventListener('submit', function (e) {
