@@ -7,16 +7,14 @@ todoCompleted = document.querySelector('.todo-completed');
 
 let lsData = JSON.parse(localStorage.getItem('list'));
 let todoData = [];
-todoData.filter(function (el) {
-  return el !== null;
-});
+
 
 const render = function () {
   todoList.textContent ='';
   todoCompleted.textContent ='';
 
   todoData = lsData
-
+  console.log(todoData);
   todoData.forEach(function (item, i) {
 
     const li = document.createElement('li');
