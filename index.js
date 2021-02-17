@@ -12,9 +12,13 @@ let todoData = [];
 const render = function () {
   todoList.textContent ='';
   todoCompleted.textContent ='';
+  if(lsData === null){
+    todoData =[]
+  }else{
+    todoData = lsData
+  }
 
-  todoData = lsData
-  console.log(todoData);
+  console.log('todoData',todoData);
   todoData.forEach(function (item, i) {
 
     const li = document.createElement('li');
