@@ -6,7 +6,7 @@ todoList = document.querySelector('.todo-list'),
 todoCompleted = document.querySelector('.todo-completed');
 
 let lsData = JSON.parse(localStorage.getItem('list'));
-console.log('lsData',lsData);
+
 let todoData = [];
 
 if(lsData === null){
@@ -21,7 +21,6 @@ const render = function () {
   todoCompleted.textContent ='';
 
 
-  console.log('todoData',todoData);
   todoData.forEach(function (item, i) {
 
     const li = document.createElement('li');
@@ -66,7 +65,7 @@ todoControl.addEventListener('submit', function (e) {
   if(headerInput.value.trim() !== ''){
     todoData.push(newTodo);
 
-    console.log('todoDataAfterPush',todoData);
+
 
     localStorage.setItem('list', JSON.stringify(todoData));
   }
