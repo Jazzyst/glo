@@ -76,7 +76,6 @@ appData = {
     this.expensesMonth = 0;
 
     allInputs.forEach(function (item) {
-      console.log(item);
       item.value = '';
       item.removeAttribute('disabled');
     });
@@ -216,7 +215,7 @@ appData = {
   },
   changePeriod: function(e){
     periodAmount.textContent = e.target.value
-    incomePeriodValue.value = this.budgetMonth * e.target.value
+    incomePeriodValue.value = appData.budgetMonth * e.target.value
   },
 }
 
