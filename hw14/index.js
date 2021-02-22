@@ -11,10 +11,10 @@ const DomElement = function (options) {
 
 DomElement.prototype.createEl = function () {
   let elem;
-  console.log(this.selector.substr(0,1))
+
   if(this.selector.substr(0,1) === '.'){
     elem =  document.createElement('div');
-    elem.classList.add(`.${this.selector.substr(1)}`);
+    elem.classList.add(`${this.selector.substr(1)}`);
     elem.textContent = this.content;
     elem.style.cssText = `
       height: ${this.height}px;
@@ -23,7 +23,6 @@ DomElement.prototype.createEl = function () {
       font-size: ${this.fontSize}px;
     `;
     document.body.append(elem);
-    console.log(elem);
   }else if(this.selector.substr(0,1) === '#'){
     elem = document.createElement('div');
     elem.setAttribute('id',`${this.selector.substr(1)}`);
@@ -35,7 +34,6 @@ DomElement.prototype.createEl = function () {
       font-size: ${this.fontSize}px;
     `;
     document.body.append(elem);
-    console.log(elem);
   }
 
 }

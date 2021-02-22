@@ -84,6 +84,7 @@ AppData.prototype.reset = function(){
   periodAmount.textContent = 1;
   submitBtn.style.display ='block';
   cancelBtn.style.display='none';
+  checkboxDeposit.checked = false;
 
   for(let i = 1; i<incomeItems.length; i++){
     incomeItems[i].parentNode.removeChild(incomeItems[i]);
@@ -252,7 +253,7 @@ AppData.prototype.eventListeners = function () {
 const appData  = new AppData();
 
 appData.eventListeners();
-console.log(appData);
+
 
 
 // const isNumber = (n) => {
