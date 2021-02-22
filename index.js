@@ -5,7 +5,7 @@ const submitBtn = document.getElementById('start'),
   plusBtns = document.getElementsByTagName('button'),
   incomePlus = plusBtns[0],
   expensesPlus = plusBtns[1],
-  checkboxDeposit = document.querySelector('#deposit-check'),
+  depositCheck = document.querySelector('#deposit-check'),
   additionalIncomeItems = document.querySelectorAll('.additional_income-item'),
   budgetMonthValue = document.querySelector('.budget_month-value'),
   budgetDayValue = document.getElementsByClassName('budget_day-value')[0],
@@ -84,7 +84,7 @@ class AppData  {
     periodAmount.textContent = 1;
     submitBtn.style.display ='block';
     cancelBtn.style.display='none';
-    checkboxDeposit.checked = false;
+    depositCheck.checked = false;
 
     for(let i = 1; i<incomeItems.length; i++){
       incomeItems[i].parentNode.removeChild(incomeItems[i]);
@@ -130,7 +130,6 @@ class AppData  {
   getExpInc(){
     const count = item =>{
       const startStr = item.className.split('-')[0];
-      console.log(startStr);
       const itemTitle =  item.querySelector(`.${startStr}-title`).value;
       const itemAmount = item.querySelector(`.${startStr}-amount`).value;
 
@@ -230,9 +229,13 @@ class AppData  {
       this.reset();
     });
 
-    expensesPlus.addEventListener('click', appData.addExpensesBlock.bind(appData));
-    incomePlus.addEventListener('click', appData.addIncomeBlock.bind(appData));
-    periodSelect.addEventListener('change', appData.changePeriod.bind(appData));
+    expensesPlus.addEventListener('click', this.addExpensesBlock.bind(this));
+
+    incomePlus.addEventListener('click', this.addIncomeBlock.bind(this));
+
+    periodSelect.addEventListener('change', this.changePeriod.bind(this));
+
+
   }
 }
 
