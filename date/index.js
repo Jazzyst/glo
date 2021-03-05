@@ -6,13 +6,11 @@ let dateNow = new Date().getTime(),
   daysToNY = Math.floor(timeRemaining / 60 /60 / 24);
 
 let date = new Date(),
-  time = date.toLocaleTimeString('en'),
   daysArr = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье'];
 
 let day = daysArr[date.getDay()-1];
 
 let hours = date.getHours();
-console.log(hours)
 
 let goodDay = null
 switch (true) {
@@ -30,19 +28,40 @@ switch (true) {
     break;
 }
 
+let curTime = document.querySelector('.current-time');
+let curDate = document.querySelector('.current-date');
 
-
-
-
-
-let dateString = `<div>${goodDay}</div>
-<div>Сегодня: ${day}</div>
-<div>Текущее время: ${time}</div>
-<div>До нового года осталось ${daysToNY} дней</div>`
 
 let wrap = document.createElement('div');
-wrap.innerHTML = dateString;
-
-
-
 document.body.append(wrap)
+
+const curTimeDate = () =>{
+  let date = new Date(),
+    time = date.toLocaleTimeString('en'),
+    currentDate = date.toLocaleDateString('en');
+  return{time, currentDate}
+}
+
+setInterval( () => {
+  let {time, currentDate} = curTimeDate(),
+   dateString = `<div>${goodDay}</div>
+<div>Сегодня: ${day}</div>
+<div class="current-date">Текущее время: ${time}</div>
+<div class="current-time">Текущая дата: ${currentDate}</div>
+<div>До нового года осталось ${daysToNY} дней</div>`;
+
+  wrap.innerHTML = dateString;
+
+},1000)
+
+
+
+
+
+
+
+
+
+
+
+
