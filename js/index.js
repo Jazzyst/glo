@@ -1,13 +1,13 @@
-window.addEventListener('DOMContentLoaded', function () {
+window.addEventListener('DOMContentLoaded',  () => {
   'use strict';
 
   //Timer
-  function countTimer(deadline) {
+  const countTimer = (deadline) =>{
     let timerHours = document.querySelector('#timer-hours'),
       timerMinutes = document.querySelector('#timer-minutes'),
       timerSeconds = document.querySelector('#timer-seconds');
 
-    function getTimeRemaining(){
+    const getTimeRemaining = () =>{
       let dateStop = new Date(deadline).getTime(),
         dateNow = new Date().getTime(),
         timeRemaining = (dateStop - dateNow) / 1000,
@@ -19,7 +19,7 @@ window.addEventListener('DOMContentLoaded', function () {
       return{ hours, minutes, seconds, days, timeRemaining };
     }
 
-    function updateClock() {
+    const updateClock = () => {
       let timer = getTimeRemaining();
 
       timer.hours > 0 ? timerHours.textContent = timer.hours : timerHours.textContent = '00';
@@ -44,6 +44,66 @@ window.addEventListener('DOMContentLoaded', function () {
     updateClock();
   }
 
-  countTimer('04 march 2021');
+  countTimer('05 march 2021');
+
+  //Menu
+  const toggleMenu = () =>{
+    const btnMenu = document.querySelector('.menu'),
+      menu = document.querySelector('menu'),
+      closeBtn = document.querySelector('.close-btn'),
+      menuItems = menu.querySelectorAll('ul>li');
+
+    const handlerMenu = () =>{
+      menu.classList.toggle('active-menu');
+    };
+    btnMenu.addEventListener('click', handlerMenu);
+    closeBtn.addEventListener('click', handlerMenu);
+    menuItems.forEach( item => item.addEventListener('click', handlerMenu));
+  };
+
+  toggleMenu();
+
+  //popup
+
+  const togglePopUp = () =>{
+    const popup = document.querySelector('.popup'),
+      popupBtns = document.querySelectorAll('.popup-btn'),
+      popupClose = document.querySelector('.popup-close'),
+      popupContent = document.querySelector('.popup-content');
+      popupContent.style.transform = `translateY(-500px)`;
+
+
+      const popupAnimateHandler = () =>{
+        let count = -50,
+          animation;
+        const show = () =>{
+          animation = requestAnimationFrame(show);
+          count++
+          if(count <0 ){
+            popupContent.style.transform = `translateY(${count}px)`
+          }else{
+            cancelAnimationFrame(animation)
+          }
+        }
+        animation = requestAnimationFrame(show);
+      }
+
+
+
+      popupBtns.forEach(item => item.addEventListener('click', ()=>{
+        popup.style.display = 'block';
+        if(document.documentElement.clientWidth > 768){
+          popupAnimateHandler();
+        }else{
+          popupContent.style.transform = `translateY(0)`
+        }
+      }));
+
+      popupClose.addEventListener('click', ()=>{
+        popup.style.display = 'none';
+      })
+  };
+
+  togglePopUp();
 
 });
