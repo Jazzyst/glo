@@ -294,7 +294,7 @@ window.addEventListener('DOMContentLoaded',  () => {
       }
 
       if(target.matches('input[name=user_name]')){
-        target.value = target.value.replace(/[^а-я\s-]/ig, '').replace(/\s+/g, ' ').replace(/\-+/g, '-').replace(/^-+|-+$/g, '').replace(/^\s|\s$/g, '');
+        target.value = target.value.replace(/[^а-я\s-]/ig, '').replace(/\s+/g, ' ').replace(/\-+/g, '-').replace(/^-+|-+$/g, '').replace(/^\s/g, '');
 
         target.value = target.value.toLowerCase()
           .split(' ')
