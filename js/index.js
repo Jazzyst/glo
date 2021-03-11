@@ -252,4 +252,71 @@ window.addEventListener('DOMContentLoaded',  () => {
   };
 
   slider();
+
+
+  //changeImagesHandler
+
+  const changeImagesHandler = () =>{
+    let images = document.querySelectorAll('.command__photo');
+
+    images.forEach((item,)=>{
+      let defaultImg = item.src
+      item.addEventListener('mouseenter', (e) =>{
+        e.target.src = e.target.dataset.img
+      })
+      item.addEventListener('mouseleave', (e) =>{
+        e.target.src = defaultImg;
+      })
+    })
+  }
+  changeImagesHandler();
+
+  //validate inputs
+
+  const validateInputs = () =>{
+    const calcBlock = document.querySelector('.calc-block'),
+      calcBlockInputs = calcBlock.querySelectorAll('input'),
+      body = document.querySelector('body');
+
+
+    calcBlockInputs.forEach((item)=>{
+      item.addEventListener('input', ()=>{
+        item.value = item.value.replace(/\D/g, '');
+      })
+    });
+
+    body.addEventListener('input', (e)=>{
+      let target = e.target;
+
+      if(target.matches('input[name=user_message]')){
+        target.value = target.value.replace(/[^а-я\s-]/ig, '').replace(/\s+/g, ' ').replace(/\-+/g, '-').replace(/^-+|-+$/g, '').replace(/^\s|\s$/g, '');
+        target.value = target.value.charAt(0).toUpperCase() + target.value.slice(1).trim();
+      }
+
+      if(target.matches('input[name=user_name]')){
+        target.value = target.value.replace(/[^а-я\s-]/ig, '').replace(/\s+/g, ' ').replace(/\-+/g, '-').replace(/^-+|-+$/g, '').replace(/^\s|\s$/g, '');
+
+        target.value = target.value.toLowerCase()
+          .split(' ')
+          .map((word) =>{
+            if(word !== ''){
+              return word[0].toUpperCase() + word.substr(1);
+            }
+          })
+          .join(' ');
+      }
+
+      if(target.matches('input[name=user_email]')){
+        target.value = target.value.toLowerCase().replace(/[^a-z@-_.!~*']/ig, '').replace(/\^/g, '').replace(/^-+|-+$/g, '').replace(/^\s|\s$/g, '');
+      }
+
+      if(target.matches('input[name=user_phone]')){
+        target.value = target.value.replace(/[^0-9 ()-]/ig, '').replace(/\-+/g, '-').replace(/^-+|-+$/g, '').trim();
+      }
+    });
+
+
+  }
+
+  validateInputs();
 });
