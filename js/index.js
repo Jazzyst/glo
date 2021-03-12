@@ -314,8 +314,6 @@ window.addEventListener('DOMContentLoaded',  () => {
         target.value = target.value.replace(/[^0-9 ()-]/ig, '').replace(/\-+/g, '-').replace(/^-+|-+$/g, '').trim();
       }
     }, true);
-
-
   }
 
   validateInputs();
