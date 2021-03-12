@@ -285,16 +285,16 @@ window.addEventListener('DOMContentLoaded',  () => {
       })
     });
 
-    body.addEventListener('input', (e)=>{
+    body.addEventListener('blur', (e)=>{
       let target = e.target;
 
       if(target.matches('input[name=user_message]')){
-        target.value = target.value.replace(/[^а-я\s-]/ig, '').replace(/\s+/g, ' ').replace(/\-+/g, '-').replace(/^-+|-+$/g, '').replace(/^\s|\s$/g, '');
+        target.value = target.value.replace(/[^а-я\s-,.!?]/ig, '').replace(/\s+/g, ' ').replace(/\-+/g, '-').replace(/^-+|-+$/g, '').replace(/^\s|\s$/g, '');
         target.value = target.value.charAt(0).toUpperCase() + target.value.slice(1).trim();
       }
 
       if(target.matches('input[name=user_name]')){
-        target.value = target.value.replace(/[^а-я\s-]/ig, '').replace(/\s+/g, ' ').replace(/\-+/g, '-').replace(/^-+|-+$/g, '').replace(/^\s/g, '');
+        target.value = target.value.replace(/[^а-я\s-]/ig, '').replace(/\s+/g, ' ').replace(/\-+/g, '-').replace(/^-+|-+$/g, '').replace(/^\s/g, '').trim();
 
         target.value = target.value.toLowerCase()
           .split(' ')
@@ -313,7 +313,7 @@ window.addEventListener('DOMContentLoaded',  () => {
       if(target.matches('input[name=user_phone]')){
         target.value = target.value.replace(/[^0-9 ()-]/ig, '').replace(/\-+/g, '-').replace(/^-+|-+$/g, '').trim();
       }
-    });
+    }, true);
 
 
   }
