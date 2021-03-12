@@ -1,13 +1,13 @@
-window.addEventListener('DOMContentLoaded',  () => {
+window.addEventListener('DOMContentLoaded', () => {
   'use strict';
 
   //Timer
-  const countTimer = (deadline) =>{
+  const countTimer = (deadline) => {
     let timerHours = document.querySelector('#timer-hours'),
       timerMinutes = document.querySelector('#timer-minutes'),
       timerSeconds = document.querySelector('#timer-seconds');
 
-    const getTimeRemaining = () =>{
+    const getTimeRemaining = () => {
       let dateStop = new Date(deadline).getTime(),
         dateNow = new Date().getTime(),
         timeRemaining = (dateStop - dateNow) / 1000,
@@ -16,7 +16,7 @@ window.addEventListener('DOMContentLoaded',  () => {
         hours = Math.floor(timeRemaining / 60 / 60) % 24,
         days = Math.floor(timeRemaining / 60 / 60 / 24);
 
-      return{ hours, minutes, seconds, days, timeRemaining };
+      return {hours, minutes, seconds, days, timeRemaining};
     }
 
     const updateClock = () => {
@@ -25,18 +25,18 @@ window.addEventListener('DOMContentLoaded',  () => {
       timer.hours > 0 ? timerHours.textContent = timer.hours : timerHours.textContent = '00';
       timer.minutes > 0 ? timerMinutes.textContent = timer.minutes : timerMinutes.textContent = '00';
       timer.seconds > 0 ? timerSeconds.textContent = timer.seconds : timerSeconds.textContent = '00';
-      if(timer.hours > 0 && timer.hours < 10){
+      if (timer.hours > 0 && timer.hours < 10) {
         timerHours.insertAdjacentText('afterbegin', '0');
       }
-      if(timer.minutes > 0 && timer.minutes < 10){
+      if (timer.minutes > 0 && timer.minutes < 10) {
         timerMinutes.insertAdjacentText('afterbegin', '0');
       }
-      if(timer.seconds > 0 && timer.seconds < 10){
+      if (timer.seconds > 0 && timer.seconds < 10) {
         timerSeconds.insertAdjacentText('afterbegin', '0');
       }
 
       let intervalId = setInterval(updateClock, 1000);
-      if(timer.timeRemaining < 0){
+      if (timer.timeRemaining < 0) {
         clearInterval(intervalId)
       }
 
@@ -47,20 +47,20 @@ window.addEventListener('DOMContentLoaded',  () => {
   countTimer('05 march 2021');
 
   //Menu
-  const toggleMenu = () =>{
+  const toggleMenu = () => {
     const menu = document.querySelector('menu'),
       body = document.querySelector('body');
 
-    const handlerMenu = () =>{
+    const handlerMenu = () => {
       menu.classList.toggle('active-menu');
     };
-    body.addEventListener('click', (e)=>{
+    body.addEventListener('click', (e) => {
       let target = e.target;
-      if(target.matches('ul>li>a') || target.classList.contains('close-btn') || target.closest('.menu')){
+      if (target.matches('ul>li>a') || target.classList.contains('close-btn') || target.closest('.menu')) {
         handlerMenu();
-      }else{
+      } else {
         target = target.closest('menu');
-        if(!target){
+        if (!target) {
           menu.classList.remove('active-menu')
         }
       }
@@ -72,44 +72,44 @@ window.addEventListener('DOMContentLoaded',  () => {
 
   //popup
 
-  const togglePopUp = () =>{
+  const togglePopUp = () => {
     const popup = document.querySelector('.popup'),
       popupBtns = document.querySelectorAll('.popup-btn'),
       popupContent = document.querySelector('.popup-content');
-      popupContent.style.transform = `translateY(-500px)`;
+    popupContent.style.transform = `translateY(-500px)`;
 
 
-    const popupAnimateHandler = () =>{
-        let count = -50,
-          animation;
-        const show = () =>{
-          animation = requestAnimationFrame(show);
-          count++
-          if(count <0 ){
-            popupContent.style.transform = `translateY(${count}px)`
-          }else{
-            cancelAnimationFrame(animation)
-          }
-        }
+    const popupAnimateHandler = () => {
+      let count = -50,
+        animation;
+      const show = () => {
         animation = requestAnimationFrame(show);
+        count++
+        if (count < 0) {
+          popupContent.style.transform = `translateY(${count}px)`
+        } else {
+          cancelAnimationFrame(animation)
+        }
       }
+      animation = requestAnimationFrame(show);
+    }
 
-    popupBtns.forEach(item => item.addEventListener('click', ()=>{
+    popupBtns.forEach(item => item.addEventListener('click', () => {
       popup.style.display = 'block';
-      if(document.documentElement.clientWidth > 768){
+      if (document.documentElement.clientWidth > 768) {
         popupAnimateHandler();
-      }else{
+      } else {
         popupContent.style.transform = `translateY(0)`
       }
     }));
 
-    popup.addEventListener('click', (e)=>{
+    popup.addEventListener('click', (e) => {
       let target = e.target;
-      if(target.classList.contains('popup-close')){
+      if (target.classList.contains('popup-close')) {
         popup.style.display = 'none';
-      }else{
+      } else {
         target = target.closest('.popup-content')
-        if(!target){
+        if (!target) {
           popup.style.display = 'none';
         }
       }
@@ -122,32 +122,32 @@ window.addEventListener('DOMContentLoaded',  () => {
 
   const tabs = () => {
     const tabHeader = document.querySelector('.service-header'),
-    tabs = tabHeader.querySelectorAll('.service-header-tab'),
-    tabContent = document.querySelectorAll('.service-tab');
+      tabs = tabHeader.querySelectorAll('.service-header-tab'),
+      tabContent = document.querySelectorAll('.service-tab');
 
-    const toggleTabContent = (index) =>{
-      for(let i = 0; i < tabContent.length; i++){
-        if (index === i){
+    const toggleTabContent = (index) => {
+      for (let i = 0; i < tabContent.length; i++) {
+        if (index === i) {
           tabs[i].classList.add('active');
           tabContent[i].classList.remove('d-none');
-        }else{
+        } else {
           tabs[i].classList.remove('active');
           tabContent[i].classList.add('d-none');
         }
       }
     };
 
-    tabHeader.addEventListener('click', (e) =>{
+    tabHeader.addEventListener('click', (e) => {
       let target = e.target;
-        target = target.closest('.service-header-tab');
+      target = target.closest('.service-header-tab');
 
-        if(target){
-          tabs.forEach((item, i) =>{
-            if(item === target){
-              toggleTabContent(i);
-            }
-          });
-        }
+      if (target) {
+        tabs.forEach((item, i) => {
+          if (item === target) {
+            toggleTabContent(i);
+          }
+        });
+      }
     })
   };
 
@@ -162,7 +162,7 @@ window.addEventListener('DOMContentLoaded',  () => {
       dotsWrap = document.querySelector('.portfolio-dots');
 
 
-    for(let i = 0; i < slides.length; i++){
+    for (let i = 0; i < slides.length; i++) {
       let dot = document.createElement('li');
       dot.classList.add('dot');
       dotsWrap.append(dot);
@@ -172,77 +172,77 @@ window.addEventListener('DOMContentLoaded',  () => {
     dots[0].classList.add('dot-active');
 
     let currentSlide = 0,
-    interval;
+      interval;
 
-    const prevSlide = (elem, index, strClass) =>{
+    const prevSlide = (elem, index, strClass) => {
       elem[index].classList.remove(strClass);
     };
 
-    const nextSlide = (elem, index, strClass) =>{
+    const nextSlide = (elem, index, strClass) => {
       elem[index].classList.add(strClass);
     };
 
-    const autoPlaySlide = () =>{
+    const autoPlaySlide = () => {
       prevSlide(slides, currentSlide, 'portfolio-item-active');
       prevSlide(dots, currentSlide, 'dot-active')
       currentSlide++;
-      if (currentSlide >=slides.length){
+      if (currentSlide >= slides.length) {
         currentSlide = 0;
       }
       nextSlide(slides, currentSlide, 'portfolio-item-active');
-      nextSlide(dots,currentSlide, 'dot-active');
+      nextSlide(dots, currentSlide, 'dot-active');
     };
 
-    const startSlide = (time = 1500) =>{
+    const startSlide = (time = 1500) => {
       interval = setInterval(autoPlaySlide, time);
     };
 
-    const stopSlide = () =>{
+    const stopSlide = () => {
       clearInterval(interval);
     };
 
-    slider.addEventListener('click', (e)=>{
+    slider.addEventListener('click', (e) => {
       e.preventDefault();
       let target = e.target;
 
-      if(!target.matches('.portfolio-btn, .dot')){
+      if (!target.matches('.portfolio-btn, .dot')) {
         return;
       }
 
       prevSlide(slides, currentSlide, 'portfolio-item-active');
-      prevSlide(dots,currentSlide, 'dot-active')
+      prevSlide(dots, currentSlide, 'dot-active')
 
-      if(target.matches('#arrow-right')){
+      if (target.matches('#arrow-right')) {
         currentSlide++;
-      }else if(target.matches('#arrow-left')){
+      } else if (target.matches('#arrow-left')) {
         currentSlide--;
-      }else if(target.matches('.dot')){
-        dots.forEach((item, i)=> {
-          if(item === target){
+      } else if (target.matches('.dot')) {
+        dots.forEach((item, i) => {
+          if (item === target) {
             currentSlide = i;
           }
         })
       }
 
-      if(currentSlide >=slides.length){
+      if (currentSlide >= slides.length) {
         currentSlide = 0;
       }
-      if(currentSlide < 0){
-        currentSlide = slides.length -1;
+      if (currentSlide < 0) {
+        currentSlide = slides.length - 1;
       }
 
       nextSlide(slides, currentSlide, 'portfolio-item-active');
-      nextSlide(dots,currentSlide, 'dot-active');
+      nextSlide(dots, currentSlide, 'dot-active');
     });
 
-    slider.addEventListener('mouseover', (e)=>{
-      if(e.target.matches('.portfolio-btn') || e.target.matches('.dot') ){
+    slider.addEventListener('mouseover', (e) => {
+      if (e.target.matches('.portfolio-btn') || e.target.matches('.dot')) {
         stopSlide();
       }
     });
 
-    slider.addEventListener('mouseout', (e)=>{
-      if(e.target.matches('.portfolio-btn') || e.target.matches('.dot') ){
+    slider.addEventListener('mouseout', (e) => {
+      if (e.target.matches('.portfolio-btn') || e.target.matches('.dot')) {
         startSlide();
       }
     })
@@ -256,15 +256,15 @@ window.addEventListener('DOMContentLoaded',  () => {
 
   //changeImagesHandler
 
-  const changeImagesHandler = () =>{
+  const changeImagesHandler = () => {
     let images = document.querySelectorAll('.command__photo');
 
-    images.forEach((item,)=>{
+    images.forEach((item,) => {
       let defaultImg = item.src
-      item.addEventListener('mouseenter', (e) =>{
+      item.addEventListener('mouseenter', (e) => {
         e.target.src = e.target.dataset.img
       })
-      item.addEventListener('mouseleave', (e) =>{
+      item.addEventListener('mouseleave', (e) => {
         e.target.src = defaultImg;
       })
     })
@@ -273,44 +273,44 @@ window.addEventListener('DOMContentLoaded',  () => {
 
   //validate inputs
 
-  const validateInputs = () =>{
+  const validateInputs = () => {
     const calcBlock = document.querySelector('.calc-block'),
       calcBlockInputs = calcBlock.querySelectorAll('input'),
       body = document.querySelector('body');
 
 
-    calcBlockInputs.forEach((item)=>{
-      item.addEventListener('input', ()=>{
+    calcBlockInputs.forEach((item) => {
+      item.addEventListener('input', () => {
         item.value = item.value.replace(/\D/g, '');
       })
     });
 
-    body.addEventListener('blur', (e)=>{
+    body.addEventListener('blur', (e) => {
       let target = e.target;
 
-      if(target.matches('input[name=user_message]')){
+      if (target.matches('input[name=user_message]')) {
         target.value = target.value.replace(/[^а-я\s-,.!?]/ig, '').replace(/\s+/g, ' ').replace(/\-+/g, '-').replace(/^-+|-+$/g, '').replace(/^\s|\s$/g, '');
         target.value = target.value.charAt(0).toUpperCase() + target.value.slice(1).trim();
       }
 
-      if(target.matches('input[name=user_name]')){
+      if (target.matches('input[name=user_name]')) {
         target.value = target.value.replace(/[^а-я\s-]/ig, '').replace(/\s+/g, ' ').replace(/\-+/g, '-').replace(/^-+|-+$/g, '').replace(/^\s/g, '').trim();
 
         target.value = target.value.toLowerCase()
           .split(' ')
-          .map((word) =>{
-            if(word !== ''){
+          .map((word) => {
+            if (word !== '') {
               return word[0].toUpperCase() + word.substr(1);
             }
           })
           .join(' ');
       }
 
-      if(target.matches('input[name=user_email]')){
+      if (target.matches('input[name=user_email]')) {
         target.value = target.value.toLowerCase().replace(/[^a-z@-_.!~*']/ig, '').replace(/\^/g, '').replace(/^-+|-+$/g, '').replace(/^\s|\s$/g, '');
       }
 
-      if(target.matches('input[name=user_phone]')){
+      if (target.matches('input[name=user_phone]')) {
         target.value = target.value.replace(/[^0-9 ()-]/ig, '').replace(/\-+/g, '-').replace(/^-+|-+$/g, '').trim();
       }
     }, true);
@@ -319,4 +319,48 @@ window.addEventListener('DOMContentLoaded',  () => {
   }
 
   validateInputs();
+
+  //calculator
+
+  const calc = (price = 100) => {
+    const calcBlock = document.querySelector('.calc-block'),
+      calcType = document.querySelector('.calc-type'),
+      calcSquare = document.querySelector('.calc-square'),
+      calcDay = document.querySelector('.calc-day'),
+      calcCount = document.querySelector('.calc-count'),
+      totalValue = document.getElementById('total');
+
+    const countSum =() =>{
+      let total = 0,
+        countValue = 1,
+        dayValue = 1;
+
+      const typeValue = calcType.options[calcType.selectedIndex].value,
+        squareValue = +calcSquare.value;
+
+      if(calcCount.value > 1){
+        countValue += (calcCount.value -1) / 10
+      }
+
+      if(calcDay.value && calcDay.value < 5){
+        dayValue *= 2
+      }else if(calcDay.value && calcDay.value  < 10){
+        dayValue *= 1.5
+      }
+
+      if(typeValue && squareValue){
+        total = price * typeValue * squareValue * countValue * dayValue;
+      }
+      totalValue.textContent = total;
+    };
+
+    calcBlock.addEventListener('change', (e) => {
+      const target = e.target;
+      if (target.matches('select') || target.matches('input')) {
+        countSum();
+      }
+    })
+  };
+
+  calc(100);
 });
