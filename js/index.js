@@ -44,7 +44,7 @@ window.addEventListener('DOMContentLoaded', () => {
     updateClock();
   }
 
-  countTimer('05 march 2021');
+  countTimer('16 march 2021');
 
   //Menu
   const toggleMenu = () => {
@@ -285,16 +285,16 @@ window.addEventListener('DOMContentLoaded', () => {
       })
     });
 
-    body.addEventListener('blur', (e) => {
+    body.addEventListener('input', (e) => {
       let target = e.target;
 
       if (target.matches('input[name=user_message]')) {
-        target.value = target.value.replace(/[^а-я\s-,.!?]/ig, '').replace(/\s+/g, ' ').replace(/\-+/g, '-').replace(/^-+|-+$/g, '').replace(/^\s|\s$/g, '');
-        target.value = target.value.charAt(0).toUpperCase() + target.value.slice(1).trim();
+        target.value = target.value.replace(/[^а-я\s\d-,.!?]/ig, '').replace(/\s+/g, ' ').replace(/\-+/g, '-').replace(/^-+|-+$/g, '').replace(/^\s/g, '');
+        target.value = target.value.charAt(0).toUpperCase() + target.value.slice(1);
       }
 
       if (target.matches('input[name=user_name]')) {
-        target.value = target.value.replace(/[^а-я\s-]/ig, '').replace(/\s+/g, ' ').replace(/\-+/g, '-').replace(/^-+|-+$/g, '').replace(/^\s/g, '').trim();
+        target.value = target.value.replace(/[^а-я\s-]/ig, '').replace(/\s+/g, ' ').replace(/\-+/g, '-').replace(/^-+|-+$/g, '').replace(/^\s/g, '');
 
         target.value = target.value.toLowerCase()
           .split(' ')
@@ -311,7 +311,7 @@ window.addEventListener('DOMContentLoaded', () => {
       }
 
       if (target.matches('input[name=user_phone]')) {
-        target.value = target.value.replace(/[^0-9 ()-]/ig, '').replace(/\-+/g, '-').replace(/^-+|-+$/g, '').trim();
+        target.value = target.value.replace(/[^\+\d]/ig, '').replace(/\++/g, '+').replace(/^-+|-+$/g, '').trim();
       }
     }, true);
 
@@ -330,7 +330,7 @@ window.addEventListener('DOMContentLoaded', () => {
       calcCount = document.querySelector('.calc-count'),
       totalValue = document.getElementById('total');
 
-    const countSum =() =>{
+    const countSum = () => {
       let total = 0,
         countValue = 1,
         dayValue = 1;
@@ -338,23 +338,23 @@ window.addEventListener('DOMContentLoaded', () => {
       const typeValue = calcType.options[calcType.selectedIndex].value,
         squareValue = +calcSquare.value;
 
-      if(!typeValue){
+      if (!typeValue) {
         calcSquare.value = '';
         calcCount.value = '';
         calcDay.value = '';
       }
 
-      if(calcCount.value > 1){
-        countValue += (calcCount.value -1) / 10
+      if (calcCount.value > 1) {
+        countValue += (calcCount.value - 1) / 10
       }
 
-      if(calcDay.value && calcDay.value < 5){
+      if (calcDay.value && calcDay.value < 5) {
         dayValue *= 2
-      }else if(calcDay.value && calcDay.value  < 10){
+      } else if (calcDay.value && calcDay.value < 10) {
         dayValue *= 1.5
       }
 
-      if(typeValue && squareValue){
+      if (typeValue && squareValue) {
         total = price * typeValue * squareValue * countValue * dayValue;
       }
       totalValue.textContent = total;
@@ -369,4 +369,67 @@ window.addEventListener('DOMContentLoaded', () => {
   };
 
   calc(100);
+
+  //send-ajax-form
+
+  const sendForm = () => {
+    const errorMessage = 'Что-то пошло не так...',
+      loadMessage = 'Загрузка...',
+      successMessage = 'Спасибо! Мы скоро с Вами свяжемся!';
+
+    const forms = document.querySelectorAll('form');
+    const statusMessage = document.createElement('div');
+    statusMessage.style.cssText = 'font-size:2rem';
+
+    forms.forEach( (form)=>{
+      const elementsForm = [...form.elements].filter(item =>{
+        return item.tagName.toLowerCase() !=='BUTTON' && item.type !== 'button';
+      })
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        form.append(statusMessage);
+        statusMessage.textContent = loadMessage;
+        const formData = new FormData(form)
+        let body ={};
+        // for(let val of formData.entries()){
+        //   body[val[0]] = val[1];
+        // }
+        formData.forEach((val, key) =>{
+          body[key] = val;
+        });
+
+        postData(body,
+          ()=>{
+            statusMessage.textContent = successMessage;
+            elementsForm.forEach(elem => elem.value = '');
+          },
+          (error) =>{
+            console.error(error);
+            statusMessage.textContent = errorMessage;
+          })
+      });
+    })
+
+    const postData = (body, outputData, errorData)=>{
+      const request = new XMLHttpRequest();
+      request.addEventListener('readystatechange', ()=>{
+        if(request.readyState !== 4){
+          return;
+        }
+        if(request.status ===200){
+          outputData();
+        }else{
+          errorData(request.status);
+        }
+      });
+      request.open('POST', './server.php');
+      request.setRequestHeader('Content-Type', 'application/json');
+
+      request.send(JSON.stringify(body));
+    }
+
+  }
+
+  sendForm();
 });
