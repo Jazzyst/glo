@@ -357,7 +357,7 @@ window.addEventListener('DOMContentLoaded', () => {
       if (typeValue && squareValue) {
         total = price * typeValue * squareValue * countValue * dayValue;
       }
-      totalValue.textContent = total;
+      totalValue.textContent = total.toFixed(2);
     };
 
     calcBlock.addEventListener('change', (e) => {
@@ -392,41 +392,50 @@ window.addEventListener('DOMContentLoaded', () => {
         statusMessage.textContent = loadMessage;
         const formData = new FormData(form)
         let body ={};
-        // for(let val of formData.entries()){
-        //   body[val[0]] = val[1];
-        // }
         formData.forEach((val, key) =>{
           body[key] = val;
         });
-
-        postData(body,
-          ()=>{
+        const popup = document.querySelector('.popup');
+        postData(body)
+          .then(()=>{
             statusMessage.textContent = successMessage;
+            setTimeout(()=>{
+              statusMessage.style.display = 'none';
+            },2000);
+
             elementsForm.forEach(elem => elem.value = '');
-          },
-          (error) =>{
-            console.error(error);
-            statusMessage.textContent = errorMessage;
+            if(popup){
+              statusMessage.style.color = '#ffffff';
+
+              setTimeout(()=>{
+                popup.style.display='none';
+              },2000);
+
+            }
           })
+          .catch(error => console.error(error));
       });
     })
 
-    const postData = (body, outputData, errorData)=>{
-      const request = new XMLHttpRequest();
-      request.addEventListener('readystatechange', ()=>{
-        if(request.readyState !== 4){
-          return;
-        }
-        if(request.status ===200){
-          outputData();
-        }else{
-          errorData(request.status);
-        }
-      });
-      request.open('POST', './server.php');
-      request.setRequestHeader('Content-Type', 'application/json');
+    const postData = (body)=>{
+      return new Promise((resolve, reject)=>{
+        const request = new XMLHttpRequest();
+        request.addEventListener('readystatechange', ()=>{
+          if(request.readyState !== 4){
+            return;
+          }
+          if(request.status ===200){
+            resolve(request.response)
+          }else{
+            reject(request.response)
+          }
+        });
+        request.open('POST', './server.php');
+        request.setRequestHeader('Content-Type', 'application/json');
 
-      request.send(JSON.stringify(body));
+        request.send(JSON.stringify(body));
+      })
+
     }
 
   }
